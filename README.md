@@ -49,36 +49,47 @@ A Chrome extension that allows you to clip highlighted text from web pages and s
 
 ## Configuration
 
-### API Endpoint Setup
+### Server Setup
 
-Before using the extension, you need to configure the NeonDB API endpoint:
+The extension is configured to work without API keys. You just need to point it to your server:
 
 1. **Open `content.js`**
-2. **Find the fetch request** (around line 45):
+2. **Find the CONFIG section** (around line 5):
    ```javascript
-   const response = await fetch('https://your-neondb-api-endpoint.com/clips', {
+   let CONFIG = {
+     API_ENDPOINT: 'http://localhost:3000/api/clips',
+     // ...
+   };
    ```
-3. **Replace with your actual API endpoint**:
+3. **Update the API_ENDPOINT** to point to your server:
    ```javascript
-   const response = await fetch('https://your-api-domain.com/api/clips', {
-   ```
-4. **Update the API key** (currently set to placeholder):
-   ```javascript
-   'Authorization': 'Bearer YOUR_ACTUAL_API_KEY'
+   // For local development
+   API_ENDPOINT: 'http://localhost:3000/api/clips',
+   
+   // For production
+   API_ENDPOINT: 'https://your-server.com/api/clips',
    ```
 
-### Data Format
+### Server Requirements
 
-The extension sends the following data to your API:
+Your server should accept POST requests to the configured endpoint with the following data format:
 
 ```json
 {
   "text": "The highlighted text content",
   "url": "https://example.com/page",
   "title": "Page Title",
-  "timestamp": "2024-01-01T12:00:00.000Z"
+  "timestamp": "2024-01-01T12:00:00.000Z",
+  "source": "chrome-extension",
+  "version": "1.0.0"
 }
 ```
+
+### CORS Configuration
+
+If your server requires CORS headers, set `ENABLE_CORS: true` in the CONFIG section.
+
+
 
 ## File Structure
 
@@ -91,6 +102,7 @@ readit-web-clipper/
 ├── popup.html           # Extension popup interface
 ├── popup.css            # Popup styles
 ├── popup.js             # Popup functionality
+├── config.js             # Configuration file (optional)
 ├── icons/               # Extension icons
 │   ├── icon16.png
 │   ├── icon48.png
@@ -134,8 +146,9 @@ readit-web-clipper/
 
 3. **API calls failing**
    - Verify your API endpoint is correct
-   - Check that your API key is valid
+   - Check that your server is running and accessible
    - Ensure CORS is properly configured on your API
+   - Check browser console for detailed error messages
 
 4. **Toast notifications not showing**
    - Check that `content.css` is being loaded
@@ -158,8 +171,8 @@ function debugLog(message) {
 ## Security Notes
 
 - The extension requires permissions to read page content and make network requests
-- API keys are currently stored in the code (not recommended for production)
-- Consider implementing proper authentication for production use
+- No API keys are required - the extension sends data directly to your server
+- For production use, consider implementing proper authentication on your server side
 
 ## License
 

@@ -3,16 +3,20 @@ let selectedText = '';
 
 // Load configuration
 let CONFIG = {
-  // For backend API approach (RECOMMENDED)
-  API_ENDPOINT: 'https://your-backend-api.com/api/clips',
-  API_KEY: 'your-backend-api-key',
-  
-  // For direct Neon connection (LESS SECURE - development only)
-  // NEON_PUBLISHABLE_KEY: 'pck_2y5n09w6hs86bmkf78mzq2m7f1yj9rk5fb83d1p1wct2g',
-  // NEON_PROJECT_ID: '2243d638-0bd4-4bef-80f6-da408674fe0e',
+  // Development: Point to local Next.js web app
+  API_ENDPOINT: 'http://localhost:3000/api/clips',
+  // Production: Update this to your deployed web app URL
+  // API_ENDPOINT: 'https://your-app.vercel.app/api/clips',
   
   TOAST_DURATION: 3000,
-  DEBUG: false
+  DEBUG: false,
+  // Set to true if your server requires CORS headers
+  ENABLE_CORS: false,
+  // Additional fields to send with each clip
+  ADDITIONAL_FIELDS: {
+    source: 'chrome-extension',
+    version: '1.0.0'
+  }
 };
 
 // Listen for messages from background script
@@ -45,7 +49,8 @@ async function sendToReadIt(text) {
     text: text.trim(),
     url: url,
     title: title,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    ...CONFIG.ADDITIONAL_FIELDS
   };
 
   if (CONFIG.DEBUG) {
@@ -55,26 +60,45 @@ async function sendToReadIt(text) {
   try {
     showToast("Sending to ReadIt...", "info");
     
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+
+    // Add CORS headers if needed
+    if (CONFIG.ENABLE_CORS) {
+      headers['Access-Control-Allow-Origin'] = '*';
+      headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS';
+      headers['Access-Control-Allow-Headers'] = 'Content-Type';
+    }
+    
     const response = await fetch(CONFIG.API_ENDPOINT, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${CONFIG.API_KEY}`
-      },
+      headers: headers,
       body: JSON.stringify(data)
     });
 
     if (response.ok) {
+      const responseData = await response.json();
       showToast("Successfully sent to ReadIt!", "success");
       if (CONFIG.DEBUG) {
-        console.log('[ReadIt Debug]: Success response:', await response.json());
+        console.log('[ReadIt Debug]: Success response:', responseData);
       }
     } else {
-      throw new Error(`HTTP ${response.status}`);
+      const errorText = await response.text();
+      console.error('Server error:', response.status, errorText);
+      throw new Error(`Server error: ${response.status} - ${errorText}`);
     }
   } catch (error) {
     console.error('Error sending to ReadIt:', error);
-    showToast("Failed to send to ReadIt. Please try again.", "error");
+    
+    // More specific error messages
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      showToast("Cannot connect to server. Check if your server is running.", "error");
+    } else if (error.message.includes('CORS')) {
+      showToast("CORS error. Check server configuration.", "error");
+    } else {
+      showToast("Failed to send to ReadIt. Please try again.", "error");
+    }
   }
 }
 

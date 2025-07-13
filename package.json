@@ -26,10 +26,5 @@
   },
   "homepage": "https://github.com/your-username/readit-web-clipper#readme",
   "devDependencies": {},
-  "dependencies": {
-    "express": "^4.18.0",
-    "pg": "^8.11.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.0"
-  }
+  "dependencies": {}
 } 
