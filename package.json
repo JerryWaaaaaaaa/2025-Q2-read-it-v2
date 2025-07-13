@@ -1,0 +1,35 @@
+{
+  "name": "readit-web-clipper",
+  "version": "1.0.0",
+  "description": "Chrome extension for clipping highlighted text and sending to ReadIt database",
+  "main": "manifest.json",
+  "scripts": {
+    "build": "echo 'No build process needed for Chrome extension'",
+    "test": "echo 'Open chrome://extensions/ and test manually'",
+    "dev": "echo 'Load unpacked extension in Chrome developer mode'"
+  },
+  "keywords": [
+    "chrome-extension",
+    "web-clipper",
+    "readit",
+    "neondb",
+    "bookmarking"
+  ],
+  "author": "ReadIt Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/readit-web-clipper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/readit-web-clipper/issues"
+  },
+  "homepage": "https://github.com/your-username/readit-web-clipper#readme",
+  "devDependencies": {},
+  "dependencies": {
+    "express": "^4.18.0",
+    "pg": "^8.11.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0"
+  }
+} 

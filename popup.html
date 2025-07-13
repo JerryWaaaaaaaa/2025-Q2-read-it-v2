@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReadIt Web Clipper</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>ReadIt</h1>
+      <p>Web Clipper</p>
+    </div>
+    
+    <div class="content">
+      <div class="status">
+        <div class="status-indicator" id="statusIndicator"></div>
+        <span id="statusText">Ready to clip</span>
+      </div>
+      
+      <div class="actions">
+        <button id="clipButton" class="clip-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7,10 12,15 17,10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Clip Current Selection
+        </button>
+        
+        <div class="instructions">
+          <h3>How to use:</h3>
+          <ul>
+            <li>Highlight text on any webpage</li>
+            <li>Right-click and select "Send to ReadIt"</li>
+            <li>Or click the button above</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <small>Selected text and page URL will be saved to your ReadIt database</small>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html> 

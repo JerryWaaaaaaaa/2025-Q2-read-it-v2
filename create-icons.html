@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ReadIt Icon Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .icon { display: inline-block; margin: 10px; border: 1px solid #ccc; }
+        canvas { border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>ReadIt Extension Icons</h1>
+    <p>This page generates placeholder icons for the Chrome extension.</p>
+    
+    <div class="icon">
+        <h3>16x16</h3>
+        <canvas id="icon16" width="16" height="16"></canvas>
+    </div>
+    
+    <div class="icon">
+        <h3>48x48</h3>
+        <canvas id="icon48" width="48" height="48"></canvas>
+    </div>
+    
+    <div class="icon">
+        <h3>128x128</h3>
+        <canvas id="icon128" width="128" height="128"></canvas>
+    </div>
+
+    <script>
+        function drawIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Draw a simple "R" for ReadIt
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.6}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('R', size/2, size/2);
+            
+            // Add a small bookmark icon
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.beginPath();
+            ctx.moveTo(size * 0.2, size * 0.7);
+            ctx.lineTo(size * 0.3, size * 0.5);
+            ctx.lineTo(size * 0.4, size * 0.7);
+            ctx.lineTo(size * 0.2, size * 0.7);
+            ctx.fill();
+        }
+        
+        // Generate all icons
+        drawIcon('icon16', 16);
+        drawIcon('icon48', 48);
+        drawIcon('icon128', 128);
+    </script>
+</body>
+</html> 
