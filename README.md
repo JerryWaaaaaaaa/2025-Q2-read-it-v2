@@ -89,8 +89,6 @@ Your server should accept POST requests to the configured endpoint with the foll
 
 If your server requires CORS headers, set `ENABLE_CORS: true` in the CONFIG section.
 
-
-
 ## File Structure
 
 ```
@@ -103,10 +101,7 @@ readit-web-clipper/
 ├── popup.css            # Popup styles
 ├── popup.js             # Popup functionality
 ├── config.js             # Configuration file (optional)
-├── icons/               # Extension icons
-│   ├── icon16.png
-│   ├── icon48.png
-│   └── icon128.png
+├── icons/               # Extension icons (currently empty)
 └── README.md            # This file
 ```
 
@@ -156,16 +151,14 @@ readit-web-clipper/
 
 ### Debug Mode
 
-To enable debug logging, add this to `content.js`:
+To enable debug logging, set `DEBUG: true` in the CONFIG section of `content.js`:
 
 ```javascript
-const DEBUG = true;
-
-function debugLog(message) {
-  if (DEBUG) {
-    console.log('[ReadIt Debug]:', message);
-  }
-}
+let CONFIG = {
+  // ... other config
+  DEBUG: true,
+  // ...
+};
 ```
 
 ## Security Notes
