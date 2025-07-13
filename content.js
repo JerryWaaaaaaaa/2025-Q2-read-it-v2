@@ -4,7 +4,7 @@ let selectedText = '';
 // Load configuration
 let CONFIG = {
   // Development: Point to local Next.js web app
-  API_ENDPOINT: 'http://localhost:3000/api/clips',
+  API_ENDPOINT: 'https://read-it-web-app.vercel.app/api/clips.js',
   // Production: Update this to your deployed web app URL
   // API_ENDPOINT: 'https://your-app.vercel.app/api/clips',
   
